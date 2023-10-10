@@ -1,6 +1,6 @@
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+ADD DESCRIPTION HERE
 
 ## Installation
 
@@ -25,3 +25,9 @@ $ pnpm run start:prod
 ```bash
 pnpm services:start
 ```
+
+## Accessing API
+http://localhost:4000
+
+## Accessing API Documentation
+http://localhost:4000/docs
