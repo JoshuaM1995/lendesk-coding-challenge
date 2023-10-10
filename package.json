@@ -13,11 +13,12 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "service:start": "docker-compose up -d",
+    "services:start": "pnpm service:start redis",
+    "service:stop": "docker-compose stop",
+    "services:stop": "pnpm service:stop redis",
+    "service:rm": "docker-compose rm",
+    "services:rm": "pnpm service:rm redis"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

@@ -20,3 +20,8 @@ $ pnpm run start:dev
 # production mode
 $ pnpm run start:prod
 ```
+
+## Starting Redis
+```bash
+
+```
