@@ -1,7 +1,8 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { AuthModule } from '@modules/auth';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from '@modules/auth';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from '@modules/auth';
       }),
     }),
     AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
