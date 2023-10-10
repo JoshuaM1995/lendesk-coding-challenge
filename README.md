@@ -21,7 +21,7 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
-## Starting Redis
+## Starting Docker Containers
 ```bash
-
+pnpm services:start
 ```
