@@ -1,16 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as csurf from 'csurf';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // TODO: Add proper CORS origin when going to production
   app.enableCors({ origin: '*' });
-  app.use(csurf());
   app.use(helmet());
+
+  app.useGlobalPipes(new ValidationPipe());
 
   if (process.env.NODE_ENV === 'dev') {
     const config = new DocumentBuilder()
