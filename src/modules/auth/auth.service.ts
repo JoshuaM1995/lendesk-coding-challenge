@@ -45,7 +45,7 @@ export class AuthService {
 
     // Purposefully keeping the error message vague to prevent user enumeration
     if (!foundUser) {
-      throw new NotFoundException(`Invalid username or password`);
+      throw new UnauthorizedException(`Invalid username or password`);
     }
 
     const isPasswordValid = await this.userService.validatePassword(
