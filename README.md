@@ -1,6 +1,6 @@
-## Description
+## Approach
 
-ADD DESCRIPTION HERE
+ADD APPROACH HERE
 
 ## Installation
 

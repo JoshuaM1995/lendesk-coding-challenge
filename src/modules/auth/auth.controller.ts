@@ -1,12 +1,15 @@
 import { CreateUserDTO, UserDTO } from '@dtos/user';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 import { AuthService } from './auth.service';
+import { TokenDTO } from '@dtos/token/Token.dto';
+import { LoginDTO } from '@dtos/auth';
 
 @ApiTags('Auth')
 @Controller('/auth')
@@ -34,7 +37,21 @@ export class AuthController {
   }
 
   @Post('/login')
-  public async login() {
-    return this.authService.login();
+  @HttpCode(200)
+  @ApiOkResponse({
+    description: 'User logged in',
+    content: {
+      'application/json': {
+        example: {
+          jwt: 'jwt',
+          refreshToken: 'refreshToken',
+        },
+      },
+    },
+  })
+  public async login(@Body() user: LoginDTO) {
+    const tokens = await this.authService.login(user);
+
+    return plainToInstance(TokenDTO, tokens);
   }
 }

@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import Redis from 'ioredis';
 import * as bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 
 const BCRYPT_ROUNDS = 12;
 
@@ -17,6 +18,7 @@ export class UserService {
     return this.redis.rpush(
       'users',
       JSON.stringify({
+        id: uuidv4(),
         username,
         password: hashedPassword,
       }),
@@ -30,5 +32,9 @@ export class UserService {
     );
 
     return users.find((user) => user.username === username);
+  }
+
+  public async validatePassword(password: string, hash: string) {
+    return bcrypt.compare(password, hash);
   }
 }
