@@ -18,8 +18,6 @@ export class UserService {
       plainToInstance(UserDTO, JSON.parse(json)),
     );
 
-    console.log('findByUsername', users);
-
     return users.find((user) => user.username === username);
   }
 }
