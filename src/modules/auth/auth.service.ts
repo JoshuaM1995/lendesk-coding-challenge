@@ -10,10 +10,6 @@ import {
 export class AuthService {
   constructor(private readonly userService: UserService) {}
 
-  public async login() {
-    return 'Login';
-  }
-
   public async register(user: CreateUserDTO) {
     const foundUser = await this.userService.findByUsername(user.username);
 
@@ -32,5 +28,9 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  public async login() {
+    return 'Login';
   }
 }

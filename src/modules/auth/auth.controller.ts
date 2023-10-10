@@ -1,24 +1,17 @@
+import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
-import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { AuthService } from './auth.service';
 
-@ApiBearerAuth()
 @ApiTags('Auth')
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Post('/login')
-  public async login() {
-    return this.authService.login();
-  }
 
   @Post('/register')
   @ApiCreatedResponse({ description: 'User created', type: UserDTO })
@@ -38,5 +31,10 @@ export class AuthController {
     const createdUser = await this.authService.register(user);
 
     return plainToInstance(UserDTO, createdUser);
+  }
+
+  @Post('/login')
+  public async login() {
+    return this.authService.login();
   }
 }
