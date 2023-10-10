@@ -1,15 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
-  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateUserDTO } from 'src/dtos/user/create-user.dto';
 import { plainToInstance } from 'class-transformer';
+import { CreateUserDTO } from 'src/dtos/user/create-user.dto';
 import { UserDTO } from 'src/dtos/user/user.dto';
+import { AuthService } from './auth.service';
 
 @ApiBearerAuth()
 @ApiTags('Auth')

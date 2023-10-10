@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import {
   IsString,
   IsStrongPassword,
@@ -20,6 +20,7 @@ export class CreateUserDTO {
       minLength: 8,
       minNumbers: 1,
       minSymbols: 1,
+      minLowercase: 1,
       minUppercase: 1,
     },
     {
@@ -27,6 +28,6 @@ export class CreateUserDTO {
         'Password must be at least 8 characters long, contain at least 1 number, 1 symbol, and 1 uppercase letter',
     },
   )
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   public readonly password: string;
 }
