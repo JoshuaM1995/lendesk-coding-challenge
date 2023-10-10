@@ -6,8 +6,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
-import { CreateUserDTO } from 'src/dtos/user/create-user.dto';
-import { UserDTO } from 'src/dtos/user/user.dto';
+import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { AuthService } from './auth.service';
 
 @ApiBearerAuth()

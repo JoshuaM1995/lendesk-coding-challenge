@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude, Transform } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import {
   IsString,
   IsStrongPassword,
