@@ -7,7 +7,6 @@ import { RefreshTokenGuard } from '@guards/refresh-token.guard';
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   Post,
   Req,
