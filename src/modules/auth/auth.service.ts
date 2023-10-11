@@ -84,7 +84,7 @@ export class AuthService {
     return { ...payload, accessToken, refreshToken };
   }
 
-  private async getTokens(payload: JwtPayload): Promise<TokenDTO> {
+  public async getTokens(payload: JwtPayload): Promise<TokenDTO> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get('JWT_SECRET'),
