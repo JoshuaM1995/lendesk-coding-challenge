@@ -1,5 +1,5 @@
 import { PublicRoute } from '@decorators/public-route.decorator';
-import { LoginDTO, RefreshTokenDTO } from '@dtos/auth';
+import { LoginDTO, RefreshDTO, RefreshTokenDTO } from '@dtos/auth';
 import { TokenDTO } from '@dtos/token/Token.dto';
 import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
@@ -70,9 +71,13 @@ export class AuthController {
     return plainToInstance(TokenDTO, tokens);
   }
 
-  @Get('/refresh')
+  @Post('/refresh')
   @PublicRoute()
   @UseGuards(RefreshTokenGuard)
+  @ApiBody({
+    description: 'Refresh token',
+    type: RefreshDTO,
+  })
   async refreshToken(@Req() { user: { id, username } }: RequestWithUserAndJWT) {
     const tokens = await this.authService.refreshTokens({
       sub: id,

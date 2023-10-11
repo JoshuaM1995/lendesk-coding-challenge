@@ -35,12 +35,15 @@ async function bootstrap() {
         persistAuthorization: true,
       },
     });
-
-    console.log('Documentation running on http://localhost:4000/docs');
   }
 
   await app.listen(4000);
-  console.log('Server running on http://localhost:4000');
+  console.log(
+    `Server running on http://localhost:4000.${
+      process.env.NODE_ENV === 'dev' &&
+      ' You can view the docs at http://localhost:4000/docs'
+    }`,
+  );
 }
 
 bootstrap();

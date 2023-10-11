@@ -18,12 +18,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getHandler(),
     );
 
-    // ALlow the request to go through
+    // Allow the request to go through
     if (isPublic) {
       return true;
     }
-
-    console.log('CAN ACTIVATE --------->', context.switchToHttp().getRequest());
 
     // Otherwise, let the AuthGuard handle the request
     return super.canActivate(context);
