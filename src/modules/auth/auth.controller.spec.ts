@@ -65,6 +65,19 @@ describe('AuthController', () => {
         .expect(HttpStatus.BAD_REQUEST);
     });
 
+    it("should return a 400 when the password strength requirements aren't met", async () => {
+      const mockUsername = faker.word.words(15);
+      const mockPassword = 'password';
+
+      await request(app.getHttpServer())
+        .post('/auth/register')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.BAD_REQUEST);
+    });
+
     it('should return a 400 when the username is already taken', async () => {
       const mockUsername = faker.internet.userName();
       const mockPassword = 'Password123!';
