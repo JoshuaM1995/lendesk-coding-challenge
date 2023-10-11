@@ -3,6 +3,7 @@ import { AppModule } from '@modules/app';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as compression from 'compression';
 import helmet from 'helmet';
 
 async function bootstrap() {
@@ -12,6 +13,7 @@ async function bootstrap() {
   // TODO: Add proper CORS origin when going to production
   app.enableCors({ origin: '*' });
   app.use(helmet());
+  app.use(compression());
   app.useGlobalPipes(new ValidationPipe());
   // Add JWT bearer authentication to all routes by default
   app.useGlobalGuards(new JwtAuthGuard(reflector));
@@ -37,11 +39,17 @@ async function bootstrap() {
     });
   }
 
-  await app.listen(4000);
+  const port = 4000;
+  await app.listen(port);
+
+  const server = app.getHttpServer();
+  const address =
+    server.address().address === '::' ? 'localhost' : server.address().address;
+
   console.log(
-    `Server running on http://localhost:4000.${
+    `Server running on http://${address}:${port}.${
       process.env.NODE_ENV === 'dev' &&
-      ' You can view the docs at http://localhost:4000/docs'
+      ` You can view the docs at http://${address}:${port}/docs`
     }`,
   );
 }
