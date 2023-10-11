@@ -39,6 +39,19 @@ describe('AuthController', () => {
       expect(body.password).toBeUndefined();
     });
 
+    it("should return a 400 when the username requirements aren't met", async () => {
+      const mockUsername = 'a';
+      const mockPassword = 'Password123!';
+
+      await request(app.getHttpServer())
+        .post('/auth/register')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.BAD_REQUEST);
+    });
+
     it('should return a 400 when the username is already taken', async () => {
       const mockUsername = faker.internet.userName();
       const mockPassword = 'Password123!';
