@@ -48,8 +48,24 @@ export class AuthService {
       throw new UnauthorizedException(`Invalid username or password`);
     }
 
+    const jwtPayload: JwtPayload = {
+      sub: foundUser.id,
+      username: foundUser.username,
+    };
+
+    return this.getTokens(jwtPayload);
+  }
+
+  public async validateUser(username: string, password: string) {
+    const foundUser = await this.userService.findByUsername(username);
+
+    // Purposefully keeping the error message vague to prevent user enumeration
+    if (!foundUser) {
+      throw new UnauthorizedException(`Invalid username or password`);
+    }
+
     const isPasswordValid = await this.userService.validatePassword(
-      user.password,
+      password,
       foundUser.password,
     );
 
@@ -58,12 +74,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid username or password');
     }
 
-    const jwtPayload: JwtPayload = {
-      sub: foundUser.id,
-      username: foundUser.username,
-    };
-
-    return this.getTokens(jwtPayload);
+    return foundUser;
   }
 
   private async getTokens(payload: JwtPayload): Promise<TokenDTO> {

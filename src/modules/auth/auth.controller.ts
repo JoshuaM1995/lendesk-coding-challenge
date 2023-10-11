@@ -1,5 +1,5 @@
 import { CreateUserDTO, UserDTO } from '@dtos/user';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { TokenDTO } from '@dtos/token/Token.dto';
 import { LoginDTO } from '@dtos/auth';
 import { PublicRoute } from '@decorators/public-route.decorator';
+import { LocalAuthGuard } from '@guards/local-auth.guard';
 
 @ApiTags('Auth')
 @Controller('/auth')
@@ -40,6 +41,7 @@ export class AuthController {
 
   @Post('/login')
   @PublicRoute()
+  @UseGuards(LocalAuthGuard)
   @HttpCode(200)
   @ApiOkResponse({
     description: 'User logged in',

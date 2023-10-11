@@ -21,7 +21,8 @@
       "@decorators/*": ["./src/decorators/*"],
       "@dtos/*": ["./src/dtos/*"],
       "@guards/*": ["./src/guards/*"],
-      "@modules/*": ["./src/modules/*"]
+      "@modules/*": ["./src/modules/*"],
+      "@strategies/*": ["src/modules/auth/strategies/*"]
     }
   }
 }

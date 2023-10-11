@@ -11,5 +11,7 @@ export class UserDTO {
   public readonly username: string;
 
   @ApiProperty({ example: 'Password123!' })
+  // Ensure the password isn't sent in a JSON response
+  @Expose({ toClassOnly: true })
   public readonly password: string;
 }
