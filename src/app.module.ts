@@ -1,8 +1,8 @@
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { AuthModule } from '@modules/auth';
+import { UserModule } from '@modules/user';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [

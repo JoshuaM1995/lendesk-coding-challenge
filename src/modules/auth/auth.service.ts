@@ -1,6 +1,6 @@
 import { LoginDTO } from '@dtos/auth';
 import { CreateUserDTO } from '@dtos/user';
-import { UserService } from '@modules/user/user.service';
+import { UserService } from '@modules/user';
 import {
   ConflictException,
   Injectable,
