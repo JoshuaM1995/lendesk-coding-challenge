@@ -1,4 +1,8 @@
+import { PublicRoute } from '@decorators/public-route.decorator';
+import { LoginDTO } from '@dtos/auth';
+import { TokenDTO } from '@dtos/token/Token.dto';
 import { CreateUserDTO, UserDTO } from '@dtos/user';
+import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -8,10 +12,6 @@ import {
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 import { AuthService } from './auth.service';
-import { TokenDTO } from '@dtos/token/Token.dto';
-import { LoginDTO } from '@dtos/auth';
-import { PublicRoute } from '@decorators/public-route.decorator';
-import { LocalAuthGuard } from '@guards/local-auth.guard';
 
 @ApiTags('Auth')
 @Controller('/auth')
