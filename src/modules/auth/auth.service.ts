@@ -10,6 +10,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { JwtPayload } from '../../types';
+import { TokenDTO } from '@dtos/token';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async register(user: CreateUserDTO) {
+  public async register(user: CreateUserDTO): Promise<CreateUserDTO> {
     const foundUser = await this.userService.findByUsername(user.username);
 
     if (foundUser) {
@@ -39,7 +40,7 @@ export class AuthService {
     return user;
   }
 
-  public async login(user: LoginDTO) {
+  public async login(user: LoginDTO): Promise<TokenDTO> {
     const foundUser = await this.userService.findByUsername(user.username);
 
     // Purposefully keeping the error message vague to prevent user enumeration
@@ -62,15 +63,24 @@ export class AuthService {
       username: foundUser.username,
     };
 
-    return {
-      jwt: await this.jwtService.signAsync(jwtPayload, {
+    return this.getTokens(jwtPayload);
+  }
+
+  private async getTokens(payload: JwtPayload): Promise<TokenDTO> {
+    const [jwt, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
         secret: this.configService.get('JWT_SECRET'),
         expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
       }),
-      refreshToken: await this.jwtService.signAsync(jwtPayload, {
+      this.jwtService.signAsync(payload, {
         secret: this.configService.get('REFRESH_TOKEN_SECRET'),
         expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRATION_TIME'),
       }),
+    ]);
+
+    return {
+      jwt,
+      refreshToken,
     };
   }
 }

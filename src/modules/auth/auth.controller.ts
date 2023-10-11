@@ -32,7 +32,7 @@ export class AuthController {
       },
     },
   })
-  public async register(@Body() user: CreateUserDTO) {
+  public async register(@Body() user: CreateUserDTO): Promise<UserDTO> {
     const createdUser = await this.authService.register(user);
 
     return plainToInstance(UserDTO, createdUser);
@@ -52,7 +52,7 @@ export class AuthController {
       },
     },
   })
-  public async login(@Body() user: LoginDTO) {
+  public async login(@Body() user: LoginDTO): Promise<TokenDTO> {
     const tokens = await this.authService.login(user);
 
     return plainToInstance(TokenDTO, tokens);

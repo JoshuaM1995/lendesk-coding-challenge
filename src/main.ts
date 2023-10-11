@@ -13,6 +13,7 @@ async function bootstrap() {
   app.enableCors({ origin: '*' });
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
+  // Add JWT bearer authentication to all routes by default
   app.useGlobalGuards(new JwtAuthGuard(reflector));
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(reflector, {
