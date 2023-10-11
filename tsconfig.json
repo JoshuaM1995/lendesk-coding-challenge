@@ -9,7 +9,7 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -17,13 +17,14 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
     "paths": {
-      "@constants/*": ["./src/constants/*"],
-      "@decorators/*": ["./src/decorators/*"],
-      "@dtos/*": ["./src/dtos/*"],
-      "@guards/*": ["./src/guards/*"],
-      "@modules/*": ["./src/modules/*"],
-      "@strategies/*": ["src/modules/auth/strategies/*"]
+      "@constants/*": ["constants/*"],
+      "@decorators/*": ["decorators/*"],
+      "@dtos/*": ["dtos/*"],
+      "@guards/*": ["guards/*"],
+      "@modules/*": ["modules/*"],
+      "@utils/*": ["utils/*"]
     }
   }
 }

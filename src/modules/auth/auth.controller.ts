@@ -46,6 +46,11 @@ export class AuthController {
   public async register(@Body() user: UserCreateDTO): Promise<UserDTO> {
     const createdUser = await this.authService.register(user);
 
+    console.log('REGISTER METHOD', {
+      plain: createdUser,
+      formatted: plainToInstance(UserDTO, createdUser),
+    });
+
     return plainToInstance(UserDTO, createdUser);
   }
 

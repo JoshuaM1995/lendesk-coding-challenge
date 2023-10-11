@@ -1,28 +1,12 @@
-import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { AppModule } from '@modules/app';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as compression from 'compression';
-import helmet from 'helmet';
+import { setupApp } from '@utils/setup-app';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const reflector = app.get('Reflector');
 
-  // TODO: Add proper CORS origin when going to production
-  app.enableCors({ origin: '*' });
-  app.use(helmet());
-  app.use(compression());
-  app.useGlobalPipes(new ValidationPipe());
-  // Add JWT bearer authentication to all routes by default
-  app.useGlobalGuards(new JwtAuthGuard(reflector));
-  app.useGlobalInterceptors(
-    new ClassSerializerInterceptor(reflector, {
-      // Exclude all properties by default in case we forget to use the @Exclude() decorator on sensitive fields
-      strategy: 'excludeAll',
-    }),
-  );
+  setupApp(app);
 
   if (process.env.NODE_ENV === 'dev') {
     const config = new DocumentBuilder()
