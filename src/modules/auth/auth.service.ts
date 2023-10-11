@@ -1,16 +1,15 @@
-import { CreateUserDTO, UserDTO } from '@dtos/user';
+import { LoginDTO } from '@dtos/auth';
+import { CreateUserDTO } from '@dtos/user';
 import { UserService } from '@modules/user/user.service';
 import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { JwtPayload } from '../../types';
-import { ConfigService } from '@nestjs/config';
-import { LoginDTO } from '@dtos/auth';
 
 @Injectable()
 export class AuthService {
