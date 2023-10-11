@@ -1,24 +1,17 @@
 import { faker } from '@faker-js/faker';
 import { UserService } from '@modules/user';
-import {
-  HttpStatus,
-  INestApplication,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import { setupTests } from '@utils/setup-tests';
 import * as request from 'supertest';
 import { v4 as uuidv4 } from 'uuid';
-import { AuthService } from './auth.service';
 
 describe('AuthController', () => {
   let app: INestApplication;
   let userService: UserService;
-  let authService: AuthService;
 
   beforeAll(async () => {
     app = await setupTests();
     userService = app.get(UserService);
-    authService = app.get(AuthService);
   });
 
   describe('POST /auth/register', () => {
@@ -109,6 +102,36 @@ describe('AuthController', () => {
   });
 
   describe('POST /auth/login', () => {
+    it('should allow a user to login when the username and password are valid', async () => {
+      const mockUsername = faker.internet.userName();
+      const mockPassword = 'Password123!';
+
+      // Make sure the user is found so the local strategy can validate the password
+      jest.spyOn(userService, 'findByUsername').mockReturnValue(
+        Promise.resolve({
+          id: uuidv4(),
+          username: mockUsername,
+          password: mockPassword,
+        }),
+      );
+
+      // Make sure the password is valid in the local strategy
+      jest
+        .spyOn(userService, 'validatePassword')
+        .mockReturnValue(Promise.resolve(true));
+
+      const { body } = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.OK);
+
+      expect(body.accessToken).toBeDefined();
+      expect(body.refreshToken).toBeDefined();
+    });
+
     it("should return a 401 when the user doesn't exist", async () => {
       const mockUsername = faker.internet.userName();
       const mockPassword = 'Password123!';
