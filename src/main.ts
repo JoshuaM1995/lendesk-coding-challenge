@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { AppModule } from '@modules/app';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -12,10 +13,10 @@ async function bootstrap() {
   app.enableCors({ origin: '*' });
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(reflector, {
-      // Exclude all properties by default in case we forget to use
-      // the @Exclude() decorator on sensitive fields
+      // Exclude all properties by default in case we forget to use the @Exclude() decorator on sensitive fields
       strategy: 'excludeAll',
     }),
   );

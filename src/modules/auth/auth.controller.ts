@@ -10,6 +10,7 @@ import { plainToInstance } from 'class-transformer';
 import { AuthService } from './auth.service';
 import { TokenDTO } from '@dtos/token/Token.dto';
 import { LoginDTO } from '@dtos/auth';
+import { PublicRoute } from '@decorators/public-route.decorator';
 
 @ApiTags('Auth')
 @Controller('/auth')
@@ -17,6 +18,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/register')
+  @PublicRoute()
   @ApiCreatedResponse({ description: 'User created', type: UserDTO })
   @ApiBadRequestResponse({
     description: 'Password is not strong enough',
@@ -37,6 +39,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @PublicRoute()
   @HttpCode(200)
   @ApiOkResponse({
     description: 'User logged in',
