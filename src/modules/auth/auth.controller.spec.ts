@@ -126,5 +126,23 @@ describe('AuthController', () => {
         })
         .expect(HttpStatus.UNAUTHORIZED);
     });
+
+    it("should return a 401 when the user's password is invalid", async () => {
+      const mockUsername = faker.internet.userName();
+      const mockPassword = 'Password123!';
+
+      // Make sure the password is invalid in the local strategy
+      jest
+        .spyOn(userService, 'validatePassword')
+        .mockReturnValue(Promise.resolve(false));
+
+      await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.UNAUTHORIZED);
+    });
   });
 });
