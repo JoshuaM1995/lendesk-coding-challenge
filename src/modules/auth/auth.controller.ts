@@ -1,6 +1,6 @@
 import { PublicRoute } from '@decorators/public-route.decorator';
-import { LoginDTO, RefreshDTO, RefreshTokenDTO } from '@dtos/auth';
-import { TokenDTO } from '@dtos/token/Token.dto';
+import { LoginDTO, RefreshDTO } from '@dtos/auth';
+import { TokenDTO } from '@dtos/auth/Token.dto';
 import { UserCreateDTO, UserDTO } from '@dtos/user';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { RefreshTokenGuard } from '@guards/refresh-token.guard';
@@ -83,6 +83,6 @@ export class AuthController {
       username: username,
     });
 
-    return plainToInstance(RefreshTokenDTO, tokens);
+    return plainToInstance(TokenDTO, tokens);
   }
 }

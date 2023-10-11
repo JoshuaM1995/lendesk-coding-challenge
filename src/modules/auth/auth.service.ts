@@ -1,5 +1,4 @@
-import { LoginDTO } from '@dtos/auth';
-import { TokenDTO } from '@dtos/token';
+import { LoginDTO, TokenDTO } from '@dtos/auth';
 import { UserCreateDTO } from '@dtos/user';
 import { UserService } from '@modules/user';
 import {
