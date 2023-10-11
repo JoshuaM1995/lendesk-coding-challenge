@@ -77,6 +77,7 @@ export class AuthController {
     description: 'Refresh token',
     type: RefreshDTO,
   })
+  @HttpCode(200)
   async refreshToken(@Req() { user: { id, username } }: RequestWithUserAndJWT) {
     const tokens = await this.authService.refreshTokens({
       sub: id,

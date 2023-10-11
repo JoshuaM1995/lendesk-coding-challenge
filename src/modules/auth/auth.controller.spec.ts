@@ -168,4 +168,52 @@ describe('AuthController', () => {
         .expect(HttpStatus.UNAUTHORIZED);
     });
   });
+
+  describe('POST /auth/refresh', () => {
+    it("should allow a user to refresh their tokens when they're valid", async () => {
+      const mockUsername = faker.internet.userName();
+      const mockPassword = 'Password123!';
+
+      // Make sure the user is found so the local strategy can validate the password
+      jest.spyOn(userService, 'findByUsername').mockReturnValue(
+        Promise.resolve({
+          id: uuidv4(),
+          username: mockUsername,
+          password: mockPassword,
+        }),
+      );
+
+      // Make sure the password is valid in the local strategy
+      jest
+        .spyOn(userService, 'validatePassword')
+        .mockReturnValue(Promise.resolve(true));
+
+      // Make sure a user is returned in the refresh token strategy
+      jest.spyOn(userService, 'findById').mockReturnValue(
+        Promise.resolve({
+          id: uuidv4(),
+          username: mockUsername,
+          password: mockPassword,
+        }),
+      );
+
+      const { body } = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.OK);
+
+      const { body: refreshBody } = await request(app.getHttpServer())
+        .post('/auth/refresh')
+        .send({
+          refreshToken: body.refreshToken,
+        })
+        .expect(HttpStatus.OK);
+
+      expect(refreshBody.accessToken).toBeDefined();
+      expect(refreshBody.refreshToken).toBeDefined();
+    });
+  });
 });
