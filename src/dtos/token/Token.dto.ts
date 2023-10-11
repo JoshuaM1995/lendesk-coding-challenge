@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class TokenDTO {
   @Expose()
-  jwt: string;
+  accessToken: string;
 
   @Expose()
   refreshToken: string;

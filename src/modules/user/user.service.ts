@@ -1,3 +1,4 @@
+import { BCRYPT_ROUNDS } from '@constants/bcrypt';
 import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Injectable } from '@nestjs/common';
@@ -5,8 +6,6 @@ import * as bcrypt from 'bcryptjs';
 import { plainToInstance } from 'class-transformer';
 import Redis from 'ioredis';
 import { v4 as uuidv4 } from 'uuid';
-
-const BCRYPT_ROUNDS = 12;
 
 @Injectable()
 export class UserService {
@@ -25,11 +24,14 @@ export class UserService {
     );
   }
 
+  public async findById(id: string): Promise<UserDTO | undefined> {
+    const users = await this.findAll();
+
+    return users.find((user) => user.id === id);
+  }
+
   public async findByUsername(username: string): Promise<UserDTO | undefined> {
-    const userJSONStrings = await this.redis.lrange('users', 0, -1);
-    const users = userJSONStrings.map((json) =>
-      plainToInstance(UserDTO, JSON.parse(json)),
-    );
+    const users = await this.findAll();
 
     return users.find((user) => user.username === username);
   }

@@ -1,9 +1,18 @@
 import { PublicRoute } from '@decorators/public-route.decorator';
-import { LoginDTO } from '@dtos/auth';
+import { LoginDTO, RefreshTokenDTO } from '@dtos/auth';
 import { TokenDTO } from '@dtos/token/Token.dto';
 import { CreateUserDTO, UserDTO } from '@dtos/user';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { RefreshTokenGuard } from '@guards/refresh-token.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -11,6 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
+import { RequestWithUserAndJWT } from '../../types';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
@@ -58,5 +68,17 @@ export class AuthController {
     const tokens = await this.authService.login(user);
 
     return plainToInstance(TokenDTO, tokens);
+  }
+
+  @Get('/refresh')
+  @PublicRoute()
+  @UseGuards(RefreshTokenGuard)
+  async refreshToken(@Req() { user: { id, username } }: RequestWithUserAndJWT) {
+    const tokens = await this.authService.refreshTokens({
+      sub: id,
+      username: username,
+    });
+
+    return plainToInstance(RefreshTokenDTO, tokens);
   }
 }

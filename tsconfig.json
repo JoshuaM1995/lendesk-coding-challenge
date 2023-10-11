@@ -18,6 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@constants/*": ["./src/constants/*"],
       "@decorators/*": ["./src/decorators/*"],
       "@dtos/*": ["./src/dtos/*"],
       "@guards/*": ["./src/guards/*"],

@@ -1,4 +1,5 @@
 import { LoginDTO } from '@dtos/auth';
+import { TokenDTO } from '@dtos/token';
 import { CreateUserDTO } from '@dtos/user';
 import { UserService } from '@modules/user';
 import {
@@ -10,7 +11,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { JwtPayload } from '../../types';
-import { TokenDTO } from '@dtos/token';
 
 @Injectable()
 export class AuthService {
@@ -77,8 +77,14 @@ export class AuthService {
     return foundUser;
   }
 
+  public async refreshTokens(payload: JwtPayload) {
+    const { accessToken, refreshToken } = await this.getTokens(payload);
+
+    return { ...payload, accessToken, refreshToken };
+  }
+
   private async getTokens(payload: JwtPayload): Promise<TokenDTO> {
-    const [jwt, refreshToken] = await Promise.all([
+    const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get('JWT_SECRET'),
         expiresIn: this.configService.get('JWT_EXPIRATION_TIME'),
@@ -90,7 +96,7 @@ export class AuthService {
     ]);
 
     return {
-      jwt,
+      accessToken,
       refreshToken,
     };
   }
