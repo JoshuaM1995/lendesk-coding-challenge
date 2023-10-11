@@ -39,8 +39,21 @@ describe('AuthController', () => {
       expect(body.password).toBeUndefined();
     });
 
-    it("should return a 400 when the username requirements aren't met", async () => {
+    it('should return a 400 when the username is too short', async () => {
       const mockUsername = 'a';
+      const mockPassword = 'Password123!';
+
+      await request(app.getHttpServer())
+        .post('/auth/register')
+        .send({
+          username: mockUsername,
+          password: mockPassword,
+        })
+        .expect(HttpStatus.BAD_REQUEST);
+    });
+
+    it('should return a 400 when the username is too long', async () => {
+      const mockUsername = faker.word.words(21);
       const mockPassword = 'Password123!';
 
       await request(app.getHttpServer())
