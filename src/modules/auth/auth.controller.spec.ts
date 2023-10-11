@@ -109,14 +109,14 @@ describe('AuthController', () => {
   });
 
   describe('POST /auth/login', () => {
-    it("should return a 401 when the user isn't found", async () => {
+    it("should return a 401 when the user doesn't exist", async () => {
       const mockUsername = faker.internet.userName();
       const mockPassword = 'Password123!';
 
-      // Ensure the local strategy throws an error when searching for a user
-      jest.spyOn(authService, 'validateUser').mockImplementation(() => {
-        throw new UnauthorizedException(`Invalid username or password`);
-      });
+      // Mock a user not being found without actually searching for them in Redis
+      jest
+        .spyOn(userService, 'findByUsername')
+        .mockReturnValue(Promise.resolve(undefined));
 
       await request(app.getHttpServer())
         .post('/auth/login')
