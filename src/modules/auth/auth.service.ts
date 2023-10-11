@@ -1,6 +1,6 @@
 import { LoginDTO } from '@dtos/auth';
 import { TokenDTO } from '@dtos/token';
-import { CreateUserDTO } from '@dtos/user';
+import { UserCreateDTO } from '@dtos/user';
 import { UserService } from '@modules/user';
 import {
   ConflictException,
@@ -20,7 +20,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async register(user: CreateUserDTO): Promise<CreateUserDTO> {
+  public async register(user: UserCreateDTO): Promise<UserCreateDTO> {
     const foundUser = await this.userService.findByUsername(user.username);
 
     if (foundUser) {

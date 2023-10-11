@@ -1,7 +1,7 @@
 import { PublicRoute } from '@decorators/public-route.decorator';
 import { LoginDTO, RefreshDTO, RefreshTokenDTO } from '@dtos/auth';
 import { TokenDTO } from '@dtos/token/Token.dto';
-import { CreateUserDTO, UserDTO } from '@dtos/user';
+import { UserCreateDTO, UserDTO } from '@dtos/user';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { RefreshTokenGuard } from '@guards/refresh-token.guard';
 import {
@@ -44,7 +44,7 @@ export class AuthController {
       },
     },
   })
-  public async register(@Body() user: CreateUserDTO): Promise<UserDTO> {
+  public async register(@Body() user: UserCreateDTO): Promise<UserDTO> {
     const createdUser = await this.authService.register(user);
 
     return plainToInstance(UserDTO, createdUser);

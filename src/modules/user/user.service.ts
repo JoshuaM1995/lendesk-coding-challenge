@@ -1,5 +1,5 @@
 import { BCRYPT_ROUNDS } from '@constants/bcrypt';
-import { CreateUserDTO, UserDTO } from '@dtos/user';
+import { UserCreateDTO, UserDTO } from '@dtos/user';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class UserService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  public async create({ username, password }: CreateUserDTO): Promise<number> {
+  public async create({ username, password }: UserCreateDTO): Promise<number> {
     const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
     return this.redis.rpush(
