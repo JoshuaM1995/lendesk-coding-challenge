@@ -34,6 +34,14 @@ export class UserService {
     return users.find((user) => user.username === username);
   }
 
+  public async findAll() {
+    const userJSONStrings = await this.redis.lrange('users', 0, -1);
+
+    return userJSONStrings.map((json) =>
+      plainToInstance(UserDTO, JSON.parse(json)),
+    );
+  }
+
   public async validatePassword(password: string, hash: string) {
     return bcrypt.compare(password, hash);
   }
