@@ -17,6 +17,8 @@ For the sake of time there were a few security considerations that are marked wi
 
 ## Installation
 
+We are using the PNPM package manager. You can install it [here](https://pnpm.io/installation).
+
 ```bash
 $ pnpm install
 ```
@@ -25,13 +27,13 @@ $ pnpm install
 
 ```bash
 # development
-$ pnpm run start
+$ pnpm start
 
 # watch mode
-$ pnpm run start:dev
+$ pnpm start:dev
 
 # production mode
-$ pnpm run start:prod
+$ pnpm start:prod
 ```
 
 ## Starting Docker Containers
