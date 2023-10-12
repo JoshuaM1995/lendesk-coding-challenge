@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
@@ -24,6 +25,7 @@ import { RequestWithUserAndJWT } from '../../types';
 import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
+@ApiBearerAuth()
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
