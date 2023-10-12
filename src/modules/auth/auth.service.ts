@@ -1,4 +1,4 @@
-import { LoginDTO, TokenDTO } from '@dtos/auth';
+import { LoginDTO } from '@dtos/auth';
 import { UserCreateDTO } from '@dtos/user';
 import { UserService } from '@modules/user';
 import {
@@ -19,7 +19,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async register(user: UserCreateDTO): Promise<UserCreateDTO> {
+  public async register(user: UserCreateDTO) {
     const foundUser = await this.userService.findByUsername(user.username);
 
     if (foundUser) {
@@ -39,7 +39,7 @@ export class AuthService {
     return user;
   }
 
-  public async login(user: LoginDTO): Promise<TokenDTO> {
+  public async login(user: LoginDTO) {
     const foundUser = await this.userService.findByUsername(user.username);
 
     // Purposefully keeping the error message vague to prevent user enumeration
@@ -82,7 +82,7 @@ export class AuthService {
     return { ...payload, accessToken, refreshToken };
   }
 
-  public async getTokens(payload: JwtPayload): Promise<TokenDTO> {
+  public async getTokens(payload: JwtPayload) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get('JWT_SECRET'),

@@ -45,7 +45,7 @@ export class AuthController {
       },
     },
   })
-  public async register(@Body() user: UserCreateDTO): Promise<UserDTO> {
+  public async register(@Body() user: UserCreateDTO) {
     const createdUser = await this.authService.register(user);
 
     return plainToInstance(UserDTO, createdUser);
@@ -66,7 +66,7 @@ export class AuthController {
       },
     },
   })
-  public async login(@Body() user: LoginDTO): Promise<TokenDTO> {
+  public async login(@Body() user: LoginDTO) {
     const tokens = await this.authService.login(user);
 
     return plainToInstance(TokenDTO, tokens);

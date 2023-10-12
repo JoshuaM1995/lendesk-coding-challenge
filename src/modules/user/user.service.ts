@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class UserService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  public async create({ username, password }: UserCreateDTO): Promise<number> {
+  public async create({ username, password }: UserCreateDTO) {
     const hashedPassword = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
     return this.redis.rpush(
@@ -24,19 +24,19 @@ export class UserService {
     );
   }
 
-  public async findById(id: string): Promise<UserDTO | undefined> {
+  public async findById(id: string) {
     const users = await this.findAll();
 
     return users.find((user) => user.id === id);
   }
 
-  public async findByUsername(username: string): Promise<UserDTO | undefined> {
+  public async findByUsername(username: string) {
     const users = await this.findAll();
 
     return users.find((user) => user.username === username);
   }
 
-  public async findAll(): Promise<UserDTO[]> {
+  public async findAll() {
     const userJSONStrings = await this.redis.lrange('users', 0, -1);
 
     return userJSONStrings.map((json) =>
@@ -44,10 +44,7 @@ export class UserService {
     );
   }
 
-  public async validatePassword(
-    password: string,
-    hash: string,
-  ): Promise<boolean> {
+  public async validatePassword(password: string, hash: string) {
     return bcrypt.compare(password, hash);
   }
 }

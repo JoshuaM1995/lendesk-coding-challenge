@@ -11,7 +11,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('/')
-  public async findAll(): Promise<UserDTO[]> {
+  public async findAll() {
     const users = await this.userService.findAll();
 
     return plainToInstance(UserDTO, users);
