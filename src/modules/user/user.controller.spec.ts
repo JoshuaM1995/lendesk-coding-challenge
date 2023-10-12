@@ -11,11 +11,8 @@ describe('UserController', () => {
   let accessToken: string;
 
   beforeAll(async () => {
-    const {
-      app: application,
-      accessToken: mockAccessToken,
-      refreshToken: mockRefreshToken,
-    } = await setupTests();
+    const { app: application, accessToken: mockAccessToken } =
+      await setupTests();
 
     app = application;
     userService = app.get(UserService);
