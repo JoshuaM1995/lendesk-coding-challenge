@@ -6,11 +6,11 @@ export interface JWTUser {
   username: string;
 }
 
-export interface RequestWithUser<T = unknown> extends Request {
+export interface RequestWithUser<T = undefined> extends Request {
   user: UserDTO & T;
 }
 
-export interface RequestWithJWTUser<T = unknown> extends Request {
+export interface RequestWithJWTUser<T = undefined> extends Request {
   user: JWTUser & T;
 }
 
