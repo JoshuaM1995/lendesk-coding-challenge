@@ -2,6 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDTO } from '@dtos/user';
+import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -13,6 +14,6 @@ export class UserController {
   public async findAll(): Promise<UserDTO[]> {
     const users = await this.userService.findAll();
 
-    return users;
+    return plainToInstance(UserDTO, users);
   }
 }

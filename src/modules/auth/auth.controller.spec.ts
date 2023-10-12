@@ -88,13 +88,11 @@ describe('AuthController', () => {
       const mockPassword = 'Password123!';
 
       // Mock a user not being found without actually searching for them in Redis
-      jest.spyOn(userService, 'findByUsername').mockReturnValue(
-        Promise.resolve({
-          id: uuidv4(),
-          username: mockUsername,
-          password: mockPassword,
-        }),
-      );
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue({
+        id: uuidv4(),
+        username: mockUsername,
+        password: mockPassword,
+      });
 
       await request(app.getHttpServer())
         .post('/auth/register')
@@ -112,18 +110,14 @@ describe('AuthController', () => {
       const mockPassword = 'Password123!';
 
       // Make sure the user is found so the local strategy can validate the password
-      jest.spyOn(userService, 'findByUsername').mockReturnValue(
-        Promise.resolve({
-          id: uuidv4(),
-          username: mockUsername,
-          password: mockPassword,
-        }),
-      );
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue({
+        id: uuidv4(),
+        username: mockUsername,
+        password: mockPassword,
+      });
 
       // Make sure the password is valid in the local strategy
-      jest
-        .spyOn(userService, 'validatePassword')
-        .mockReturnValue(Promise.resolve(true));
+      jest.spyOn(userService, 'validatePassword').mockResolvedValue(true);
 
       const { body } = await request(app.getHttpServer())
         .post('/auth/login')
@@ -160,9 +154,7 @@ describe('AuthController', () => {
       const mockPassword = 'Password123!';
 
       // Make sure the password is invalid in the local strategy
-      jest
-        .spyOn(userService, 'validatePassword')
-        .mockReturnValue(Promise.resolve(false));
+      jest.spyOn(userService, 'validatePassword').mockResolvedValue(false);
 
       await request(app.getHttpServer())
         .post('/auth/login')
@@ -180,13 +172,11 @@ describe('AuthController', () => {
       const mockPassword = 'Password123!';
 
       // Make sure a user is returned in the refresh token strategy
-      jest.spyOn(userService, 'findById').mockReturnValue(
-        Promise.resolve({
-          id: uuidv4(),
-          username: mockUsername,
-          password: mockPassword,
-        }),
-      );
+      jest.spyOn(userService, 'findById').mockResolvedValue({
+        id: uuidv4(),
+        username: mockUsername,
+        password: mockPassword,
+      });
 
       const { body: refreshBody } = await request(app.getHttpServer())
         .post('/auth/refresh')
