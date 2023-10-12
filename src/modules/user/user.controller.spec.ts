@@ -54,6 +54,20 @@ describe('UserController', () => {
       expect(body[0].password).toBeUndefined();
     });
 
-    // it("should return a 401 when the user isn't authenticated", async () => {});
+    it("should return a 401 when the user isn't authenticated", async () => {
+      const mockUsername = faker.internet.userName();
+      const mockPassword = 'Password123!';
+
+      // Make sure a user is returned in the refresh token strategy
+      jest.spyOn(userService, 'findById').mockResolvedValue({
+        id: uuidv4(),
+        username: mockUsername,
+        password: mockPassword,
+      });
+
+      await request(app.getHttpServer())
+        .get('/users')
+        .expect(HttpStatus.UNAUTHORIZED);
+    });
   });
 });
