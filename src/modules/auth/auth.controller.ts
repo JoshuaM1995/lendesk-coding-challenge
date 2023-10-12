@@ -80,7 +80,7 @@ export class AuthController {
   @HttpCode(200)
   async refreshToken(@Req() { user: { id, username } }: RequestWithUserAndJWT) {
     const tokens = await this.authService.refreshTokens({
-      sub: id,
+      id,
       username: username,
     });
 

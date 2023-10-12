@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     const jwtPayload: JwtPayload = {
-      sub: foundUser.id,
+      id: foundUser.id,
       username: foundUser.username,
     };
 
@@ -77,8 +77,6 @@ export class AuthService {
   }
 
   public async refreshTokens(payload: JwtPayload) {
-    // TODO: Blacklist old access token and refresh token
-
     const { accessToken, refreshToken } = await this.getTokens(payload);
 
     return { ...payload, accessToken, refreshToken };

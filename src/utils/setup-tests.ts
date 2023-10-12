@@ -14,7 +14,7 @@ export const setupTests = async () => {
   const authService = app.get(AuthService);
 
   const { accessToken, refreshToken } = await authService.getTokens({
-    sub: uuidv4(),
+    id: uuidv4(),
     username: faker.internet.userName(),
   });
 

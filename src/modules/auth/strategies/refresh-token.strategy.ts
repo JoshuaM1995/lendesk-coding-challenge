@@ -18,12 +18,12 @@ export class RefreshTokenStrategy extends PassportStrategy(
       jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
       ignoreExpiration: false,
       secretOrKey: configService.get('REFRESH_TOKEN_SECRET'),
-      passReqToCallback: true,
+      passReqToCallback: false,
     });
   }
 
-  async validate(_: Request, payload: JwtPayload) {
-    const user = await this.userService.findById(payload.sub);
+  async validate(payload: JwtPayload) {
+    const user = await this.userService.findById(payload.id);
 
     if (!user) {
       throw new UnauthorizedException('User not found');
