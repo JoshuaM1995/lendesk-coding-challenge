@@ -17,6 +17,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     username: string,
     password: string,
   ) {
+    // TODO: Refactor this to check the JWT token expiry
     if (request.headers.authorization) {
       throw new NotAcceptableException(
         `Username ${username} is already logged in`,
