@@ -33,8 +33,9 @@ async function bootstrap() {
 
   console.log(
     `Server running on http://${address}:${port}.${
-      process.env.NODE_ENV === 'dev' &&
-      ` You can view the docs at http://${address}:${port}/docs`
+      process.env.NODE_ENV === 'dev'
+        ? ` You can view the docs at http://${address}:${port}/docs`
+        : ''
     }`,
   );
 }
