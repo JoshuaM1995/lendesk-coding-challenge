@@ -83,7 +83,7 @@ describe('AuthController', () => {
         .expect(HttpStatus.BAD_REQUEST);
     });
 
-    it('should return a 400 when the username is already taken', async () => {
+    it('should return a 409 when the username is already taken', async () => {
       const mockUsername = faker.internet.userName();
       const mockPassword = 'Password123!';
 
